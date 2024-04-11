@@ -1,0 +1,5 @@
+https://www.codewars.com/kata/54f4e56e00ecc43c6d000220/train/python - task
+
+https://chat.openai.com/share/62aa56c6-7746-4d88-b3b0-c8c8dbb81ed1 - conversation with chat gpt
+
+https://www.blackbox.ai/share/0e69f628-3769-4552-916e-fef835978ab4 - conversation with blackbox 
