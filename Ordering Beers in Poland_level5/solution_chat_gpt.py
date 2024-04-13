@@ -1,50 +1,46 @@
-class PolishOrderingError(Exception):
-    pass
-
-def ordering_beers(number):
-        if not 0 <= number <= 99:
-            raise PolishOrderingError("Number of beers must be between 0 and 99.")
+class Translator:
+    @staticmethod
+    def ordering_beers(n):
+        if n < 0 or n > 99:
+            raise ValueError("Number must be between 0 and 99")
         
-        if number == 0:
+        if n == 0:
             return "Woda mineralna poprosze"
         
-        units = number % 10
-        tens = number // 10
-        nominative_plural = "piwa"
-        genitive_plural = "piw"
+        units = ["", "jeden", "dwa", "trzy", "cztery", "piec", "szesc", "siedem", "osiem", "dziewiec"]
+        teens = ["dziesiec", "jedenascie", "dwanascie", "trzynascie", "czternascie", "pietnascie", "szesnascie",
+                 "siedemnascie", "osiemnascie", "dziewietnascie"]
+        tens = ["", "dziesiec", "dwadziescia", "trzydziesci", "czterdziesci", "piecdziesiat", "szescdziesiat",
+                "siedemdziesiat", "osiemdziesiat", "dziewiecdziesiat"]
+        
+        plural_genitive = "piw"
+        plural_nominative = "piwa"
         singular = "piwo"
         
-        if number == 1:
-            beer = singular
-            numeral = "Jedno"
-        elif units == 1 and tens != 1:
-            beer = singular
-            numeral = f"{number}"
-        elif units in [2, 3, 4] and tens != 1:
-            beer = nominative_plural
-            numeral = f"{number}"
+        # Define exceptions for 12, 13, and 14
+        exceptions = [12, 13, 14]
+        
+        # Get the last two digits
+        tens_place = n // 10
+        units_place = n % 10
+        
+        # Combine words for two-digit numbers
+        if n in exceptions:
+            return f"{teens[n-10]} {plural_genitive} poprosze"
+        elif 2 <= units_place <= 4 and n not in exceptions:
+            return f"{tens[tens_place]} {units[units_place]} {plural_nominative} poprosze"
+        elif units_place == 1 and n not in exceptions:
+            return f"Jedno {singular} poprosze"
+        elif tens_place == 2 or tens_place == 3 or tens_place == 4:
+            return f"{tens[tens_place]} {units[units_place]} {plural_nominative} poprosze"
         else:
-            beer = genitive_plural
-            numeral = f"{number}"
-        
-        if number in [12, 13, 14]:
-            beer = genitive_plural
-        
-        numbers = {
-            0: "zero", 1: "jedno", 2: "dwa", 3: "trzy", 4: "cztery", 5: "piec",
-            6: "szesc", 7: "siedem", 8: "osiem", 9: "dziewiec", 10: "dziesiec",
-            11: "jedenascie", 12: "dwanascie", 13: "trzynascie", 14: "czternascie",
-            15: "pietnascie", 16: "szesnascie", 17: "siedemnascie", 18: "osiemnascie",
-            19: "dziewietnascie", 20: "dwadziescia", 30: "trzydziesci", 40: "czterdziesci",
-            50: "piecdziesiat", 60: "szescdziesiat", 70: "siedemdziesiat", 80: "osiemdziesiat",
-            90: "dziewiecdziesiat"
-        }
-        
-        if number in numbers:
-            numeral = numbers[number]
-        elif tens == 0:
-            numeral = numbers[units]
-        else:
-            numeral = f"{numbers[tens*10]} {numbers[units]}"
-        
-        return f"{numeral.capitalize()} {beer} poprosze"
+            return f"{tens[tens_place]} {units[units_place]} {plural_nominative} poprosze"
+
+# Test cases
+print(Translator.ordering_beers(1))   # Jedno piwo poprosze
+print(Translator.ordering_beers(2))   # Dwa piwa poprosze
+print(Translator.ordering_beers(12))  # 12 piw poprosze
+print(Translator.ordering_beers(22))  # 22 piwa poprosze
+print(Translator.ordering_beers(23))  # 23 piwa poprosze
+print(Translator.ordering_beers(57))   # Piecdziesiat siedem piwa poprosze
+print(Translator.ordering_beers(0))   # Woda mineralna poprosze
