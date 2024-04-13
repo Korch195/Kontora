@@ -1,0 +1,5 @@
+https://chat.openai.com/share/75743eaf-fd74-40bb-8997-ecf454c6d7ed - chatgpt solution
+
+https://www.blackbox.ai/share/7e76138c-b01b-465f-8504-fb6a41ddb10d - blackbox solution
+
+https://www.codewars.com/kata/5b853229cfde412a470000d0/train/python - task
