@@ -22,8 +22,6 @@ def flatten(lst):
             stack.append(iter(item))
         else:
             result.append(item)
-    if len(result) == 1:
-        return result.pop()
     return result
 
 import tracemalloc
