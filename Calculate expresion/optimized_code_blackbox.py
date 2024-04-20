@@ -19,14 +19,16 @@ def calculate_expression(expression: str) -> int:
     'Неправильний вираз!'
     >>> calculate_expression('Скільки буде 6 поділити на 0?')
     'Неправильний вираз!'
+    >>> calculate_expression('Скільки буде 2?')
+    2
     '''
 
     if '?' not in expression:
         return 'Неправильний вираз!'
     if 'Скільки' not in expression:
         return 'Неправильний вираз!'
-    if 'Скільки буде 2?' == expression:
-        return 2
+    if len(expression.strip('Скільки буде ')) == 2:
+        return int(expression[-2])
     
     expression = expression.replace('?', '')
 
@@ -50,8 +52,10 @@ def calculate_expression(expression: str) -> int:
             count += 1
         if len(digits) - len(math_operators) >= 2 or len(math_operators) - len(digits) >= 2:
             return 'Неправильний вираз!'
+    
     if len(digits) != len(math_operators) + 1 or len(math_operators) == 0:
         return 'Неправильний вираз!'
+    
     res = digits[0]
     for i in range(1, len(digits)):
         if math_operators[i-1] == '+':
@@ -65,3 +69,7 @@ def calculate_expression(expression: str) -> int:
                 return 'Неправильний вираз!'
             res /= digits[i]
     return int(res)
+
+if __name__ == "__main__":
+    import doctest
+    print(doctest.testmod())

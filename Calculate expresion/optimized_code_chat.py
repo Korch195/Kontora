@@ -27,6 +27,9 @@ def calculate_expression(expression: str) -> int:
     if '?' not in expression or 'Скільки' not in expression:
         return 'Неправильний вираз!'
     
+    if len(expression.strip('Скільки буде ')) == 2:
+        return int(expression[-2])
+    
     expression = expression.replace('?', '')
     
     try:
@@ -55,7 +58,10 @@ def calculate_expression(expression: str) -> int:
     
             if len(digits) - len(math_operators) >= 2 or len(math_operators) - len(digits) >= 2:
                 return 'Неправильний вираз!'
-
+            
+        if len(digits) != len(math_operators) + 1 or len(math_operators) == 0:
+            return 'Неправильний вираз!'
+    
         res = digits[0]
         for op, digit in zip(math_operators, digits[1:]):
             if op == '+':
@@ -73,7 +79,6 @@ def calculate_expression(expression: str) -> int:
     except IndexError:
         return 'Неправильний вираз!'
     
-
 
 if __name__ == "__main__":
     import doctest
