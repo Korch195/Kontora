@@ -9,7 +9,9 @@ tracemalloc.start()
 
 # function call
 
-print(tracemalloc.get_traced_memory())
+print('Used memory:', tracemalloc.get_traced_memory())
+
+print('Result is given in form of (current, peak)')
 
 # The output is given in form of (current, peak).
 # Current memory is the memory the code is currently using,
