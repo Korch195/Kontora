@@ -66,6 +66,3 @@ def caesar_decode(message, key):
         decoded_char = chr((ord(char) - ord('a') - key) % 26 + ord('a'))
         decoded_message += decoded_char
     return decoded_message
-if __name__ == "__main__":
-    import doctest
-    print(doctest.testmod())
