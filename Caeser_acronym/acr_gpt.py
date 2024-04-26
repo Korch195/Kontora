@@ -10,6 +10,8 @@ def create_acronym(message: str) -> str:
     >>> print(create_acronym("random 123"))
     None
     '''
+    if not isinstance(message, str):
+        return None
     phrases = message.strip().split('\n')
     acronyms = []
 
