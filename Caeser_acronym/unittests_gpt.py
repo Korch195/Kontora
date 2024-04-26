@@ -1,21 +1,26 @@
 import unittest
-from working_code import create_acronym, caesar_encode, caesar_decode
+from working_code import caesar_encode, caesar_decode
+from acr_gpt import create_acronym
 
 class TestCreateAcronym(unittest.TestCase):
-    def test_create_acronym_valid_input(self):
-        self.assertEqual(create_acronym("random access memory"), "RAM - random access memory")
-
-    def test_create_acronym_empty_input(self):
-        self.assertEqual(create_acronym(""), "")
-
-    def test_create_acronym_invalid_input(self):
-        self.assertIsNone(create_acronym(123))
-        self.assertIsNone(create_acronym(None))
-    
-    def test_create_acronym_with_digits(self):
-        self.assertIsNone(create_acronym("123"))
-        self.assertIsNone(create_acronym("random 123"))
-
+    def test_valid_input(self):
+        self.assertEqual(create_acronym("random access memory\nAs soon As possible"), "RAM - random access memory\nASAP - As soon As possible")
+    def test_invalid_input_with_special_characters(self):
+        self.assertIsNone(create_acronym("random @ccess memory\nAs soon As possible"))
+    def test_invalid_input_with_numbers(self):
+        self.assertIsNone(create_acronym("random access 123\nAs soon As possible"))
+    def test_empty_input(self):
+        self.assertIsNone(create_acronym(""))
+    def test_single_word_input(self):
+        self.assertEqual(create_acronym("hello"), "H - hello")
+    def test_single_phrase_input(self):
+        self.assertEqual(create_acronym("this is a single phrase"), "TIASP - this is a single phrase")
+    def test_multiple_phrases_input_with_empty_line_at_end(self):
+        self.assertEqual(create_acronym("one\ntwo\nthree\n"), "O - one\nT - two\nT - three")
+    def test_multiple_phrases_input_without_empty_line_at_end(self):
+        self.assertEqual(create_acronym("one\ntwo\nthree"), "O - one\nT - two\nT - three")
+    def test_non_latin_input(self):
+        self.assertEqual(create_acronym("Факультет прикладних наук\nУкраїнський Католицький Університет\nЇжачок"), "ФПН - Факультет прикладних наук\nУКУ - Український Католицький Університет\nЇ - Їжачок")
 class TestCaesarEncode(unittest.TestCase):
     def test_caesar_encode_valid_input(self):
         self.assertEqual(caesar_encode('computer', 3), 'frpsxwhu')

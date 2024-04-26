@@ -1,0 +1,44 @@
+Blackbox:
+https://www.blackbox.ai/share/3a5903db-0b66-4b46-8909-5d9296527024
+ChatGPT:
+https://chat.openai.com/share/a9a6d6d6-2ebe-48c2-ac5b-f03e7b67c64f
+
+unittests by condition:
+https://chat.openai.com/share/1275a926-7e85-483d-a182-718cf88bc64f
+https://www.blackbox.ai/share/dbf4dbce-a1df-4e2b-8045-f66ad0cc8f46
+
+1. Обидва ші добре себе показують при створенні тесті для коду,
+який вже написаний. Щодо додавання всіх едж кейсів у нього виникають проблеми,
+тому йому треба з ними підказувати. Інша справа коли йому потрібно написати тільки
+по умові. Також у моєму випадку не вдалося отримати відповідь з україньким промтом,
+з трьома описами функцій. Загалом процес тривав довго для отримання результаату.
+2.ШІ хоч і робив багато помилок, проте часто їх виправляв. Набагато краще з цим
+справився чат гпт, адже він добре зреагував на помилки з україньким словами в акронім,
+особливими випадками букв і, ї. Blackbox потребував прямого втручання в деякі моменти
+3.Загалом розглядачи умову та наводячи обидва ші на правильний напрямок, вони 
+покривають код 100%. Цікаво, що вони додають такі кейси, які навіть не прописані були в 
+тестах на cms (для прикладу символи типу @%$).Загалом справляється добре, проте інколи впритул
+не бачать очевидних едж кейсів.
+4.З оптимізацією тестів обидва чати показали себе не дуже добре, хоч чат гпт
+на мою думку справився краще, надавши варіант з використанням декораторів
+для зменшення об'єму тестів (приклад)
+from parameterized import parameterized
+
+class TestCreateAcronym(unittest.TestCase):
+    @parameterized.expand([
+        ("random access memory\nAs soon As possible", "RAM - random access memory\nASAP - As soon As possible"),
+        ("random @ccess memory\nAs soon As possible", None),
+        ("random access 123\nAs soon As possible", None),
+        ("", None),
+        ("hello", "H - hello"),
+        ("this is a single phrase", "TIASP - this is a single phrase"),
+        ("one\ntwo\nthree\n", "O - one\nT - two\nT - three"),
+        ("one\ntwo\nthree", "O - one\nT - two\nT - three"),
+        ("Факультет прикладних наук\nУкраїнський Католицький Університет\nЇжачок", "ФПН - Факультет прикладних наук\nУКУ - Український Католицький Університет\nЇ - Їжачок"),
+        (123, None)
+    ])
+    def test_create_acronym(self, input_message, expected_output):
+        self.assertEqual(create_acronym(input_message), expected_output)
+
+if __name__ == "__main__":
+    unittest.main()

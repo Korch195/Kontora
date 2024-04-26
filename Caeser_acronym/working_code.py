@@ -1,31 +1,31 @@
-def create_acronym(message: str) -> str:
-    '''
-    str -> str
-    takes a string consisting of phrases separated
-    by a newline character as an argument, and
-    returns the acronyms for these phrases
-    >>> print(create_acronym("random access memory"))
-    RAM - random access memory
-    >>> print(create_acronym("random 123"))
-    None
-    '''
-    if not isinstance(message, str):
-        return None
-    result = ''
-    message = message.split('\n')
-    for i in message:
-        for j in i:
-            if j.isdigit():
-                return None
-        string = ''
-        sentence = i.split()
-        for j in sentence:
-            if j:
-                string += j[0].upper()
-        if string:
-            result += f'{string} - {i}\n'
-    return result.strip()
-
+# '''
+# create_acronym() function
+# '''
+# def create_acronym(message: str) -> str:
+#     '''
+#     str -> str
+#     takes a string consisting of phrases separated
+#     by a newline character as an argument, and
+#     returns the acronyms for these phrases
+#     >>> print(create_acronym("random access memory"))
+#     RAM - random access memory
+#     '''
+#     if not isinstance(message, str):
+#         return None
+#     result = ''
+#     message = message.split('\n')
+#     for i in message:
+#         for j in i:
+#             if j.isdigit():
+#                 return None
+#         string = ''
+#         sentence = i.split()
+#         for j in sentence:
+#             if j:
+#                 string += j[0].upper()
+#         if string:
+#             result += f'{string} - {i}\n'
+#     return result.strip()
 def caesar_encode(message, key):
     '''
     (str, int) -> str
