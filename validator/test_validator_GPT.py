@@ -1,196 +1,89 @@
 import unittest
 from improved_validator_by_chatGPT import Validator
 
+
 class TestValidator(unittest.TestCase):
+    def setUp(self):
+        self.valid = Validator()
+
     def test_validate_name_surname(self):
-        valid = Validator()
-        self.assertTrue(valid.validate_name_surname("Elvis Presley"))
-        self.assertFalse(valid.validate_name_surname("ElvisPresley"))
-        self.assertFalse(valid.validate_name_surname("Elvis Presley forever"))
-        self.assertFalse(valid.validate_name_surname("elvis Presley"))
-        self.assertFalse(valid.validate_name_surname("Elvis presley"))
-        self.assertFalse(valid.validate_name_surname("Elvis PResley"))
-        self.assertFalse(valid.validate_name_surname("Elvis Presleyqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq"))
-        self.assertFalse(valid.validate_name_surname("Elvis P"))
-        self.assertFalse(valid.validate_name_surname("Elvis P,resley"))
-        self.assertFalse(valid.validate_name_surname("El1vis Presley"))
-        # Додані крайові випадки
-        # Порожнє ім'я
-        self.assertFalse(valid.validate_name_surname(""))
-        # Ім'я з пробілом
-        self.assertFalse(valid.validate_name_surname(" "))
-        # Ім'я довжиною більше 30 символів
-        self.assertFalse(valid.validate_name_surname("A" * 31))
-        # Ім'я без прізвища
-        self.assertFalse(valid.validate_name_surname("Elvis"))
-        # Ім'я з цифрами
-        self.assertFalse(valid.validate_name_surname("1234"))
+        valid_names = ["Elvis Presley"]
+        invalid_names = ["ElvisPresley", "Elvis Presley forever", "elvis Presley", "Elvis presley", "Elvis PResley", "Elvis Presleyqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq", "Elvis P", "Elvis P,resley", "El1vis Presley", "", " ", "A" * 31, "Elvis"]
+        for name in valid_names:
+            self.assertTrue(self.valid.validate_name_surname(name))
+        for name in invalid_names:
+            self.assertFalse(self.valid.validate_name_surname(name))
 
     def test_validate_age(self):
-        valid = Validator()
-        self.assertTrue(valid.validate_age("20"))
-        self.assertFalse(valid.validate_age("7"))
-        self.assertFalse(valid.validate_age("100"))
-        self.assertFalse(valid.validate_age("20."))
-        self.assertFalse(valid.validate_age("20a"))
-        # Додані крайові випадки
-        # Вік менше 0
-        self.assertFalse(valid.validate_age("-1"))
-        # Вік більше 99
-        self.assertFalse(valid.validate_age("100"))
-        # Вік у дробовому форматі
-        self.assertFalse(valid.validate_age("20.5"))
-        # Вік у текстовому форматі
-        self.assertFalse(valid.validate_age("twenty"))
+        valid_ages = ["20"]
+        invalid_ages = ["7", "100", "20.", "20a", "-1", "100", "20.5", "twenty"]
+        for age in valid_ages:
+            self.assertTrue(self.valid.validate_age(age))
+        for age in invalid_ages:
+            self.assertFalse(self.valid.validate_age(age))
 
     def test_validate_country(self):
-        valid = Validator()
-        self.assertTrue(valid.validate_country("Ukraine"))
-        self.assertFalse(valid.validate_country("U"))
-        self.assertFalse(valid.validate_country("UUUUUUUUUUUUUUUUUUUUUUU"))
-        self.assertFalse(valid.validate_country("Ukraine1"))
-        self.assertFalse(valid.validate_country("ukraine"))
-        self.assertTrue(valid.validate_country("USA"))
-        # Додані крайові випадки
-        # Порожня назва країни
-        self.assertFalse(valid.validate_country(""))
-        # Назва країни з пробілом
-        self.assertFalse(valid.validate_country(" "))
-        # Коротка назва країни
-        self.assertFalse(valid.validate_country("A"))
-        # Назва країни довше 10 символів
-        self.assertFalse(valid.validate_country("A" * 11))
+        valid_countries = ["Ukraine", "USA"]
+        invalid_countries = ["U", "UUUUUUUUUUUUUUUUUUUUUUU", "Ukraine1", "ukraine", "", " ", "A" * 11]
+        for country in valid_countries:
+            self.assertTrue(self.valid.validate_country(country))
+        for country in invalid_countries:
+            self.assertFalse(self.valid.validate_country(country))
 
     def test_validate_region(self):
-        valid = Validator()
-        self.assertTrue(valid.validate_region("Lviv"))
-        self.assertTrue(valid.validate_region("Lviv1"))
-        self.assertFalse(valid.validate_region("L"))
-        self.assertFalse(valid.validate_region("lviv"))
-        # Додані крайові випадки
-        # Порожня назва регіону
-        self.assertFalse(valid.validate_region(""))
-        # Назва регіону з пробілом
-        self.assertFalse(valid.validate_region(" "))
-        # Коротка назва регіону
-        self.assertFalse(valid.validate_region("A"))
-        # Назва регіону довше 10 символів
-        self.assertFalse(valid.validate_region("A" * 11))
+        valid_regions = ["Lviv", "Lviv1"]
+        invalid_regions = ["L", "lviv", "", " ", "A" * 11]
+        for region in valid_regions:
+            self.assertTrue(self.valid.validate_region(region))
+        for region in invalid_regions:
+            self.assertFalse(self.valid.validate_region(region))
 
     def test_validate_living_place(self):
-        valid = Validator()
-        self.assertTrue(valid.validate_living_place("Koselnytska st. 2a"))
-        self.assertFalse(valid.validate_living_place("koselnytska st. 2a"))
-        self.assertFalse(valid.validate_living_place("Koselnytska provulok 2a"))
-        self.assertFalse(valid.validate_living_place("Koselnytska st. 2"))
-        self.assertFalse(valid.validate_living_place("Koselnytska st. a2"))
-        self.assertTrue(valid.validate_living_place("Koselnytska st. 22"))
-        # Додані крайові випадки
-        # Порожня назва місця проживання
-        self.assertFalse(valid.validate_living_place(""))
-        # Назва місця проживання з пробілом
-        self.assertFalse(valid.validate_living_place(" "))
-        # Коротка назва місця проживання
-        self.assertFalse(valid.validate_living_place("A"))
-        # Назва місця проживання довше 30 символів
-        self.assertFalse(valid.validate_living_place("A" * 31))
+        valid_places = ["Koselnytska st. 2a", "Koselnytska st. 22"]
+        invalid_places = ["koselnytska st. 2a", "Koselnytska provulok 2a", "Koselnytska st. 2", "Koselnytska st. a2", "", " ", "A" * 31]
+        for place in valid_places:
+            self.assertTrue(self.valid.validate_living_place(place))
+        for place in invalid_places:
+            self.assertFalse(self.valid.validate_living_place(place))
 
     def test_validate_index(self):
-        valid = Validator()
-        self.assertTrue(valid.validate_index("79000"))
-        self.assertFalse(valid.validate_index("7900"))
-        self.assertFalse(valid.validate_index("790000"))
-        self.assertFalse(valid.validate_index("7900q"))
-        self.assertFalse(valid.validate_index("790 00"))
-        # Додані крайові випадки
-        # Порожній індекс
-        self.assertFalse(valid.validate_index(""))
-        # Індекс з пробілом
-        self.assertFalse(valid.validate_index(" "))
-        # Короткий індекс
-        self.assertFalse(valid.validate_index("1234"))
-        # Довгий індекс
-        self.assertFalse(valid.validate_index("123456"))
+        valid_indices = ["79000"]
+        invalid_indices = ["7900", "790000", "7900q", "790 00", "", " ", "1234", "123456"]
+        for index in valid_indices:
+            self.assertTrue(self.valid.validate_index(index))
+        for index in invalid_indices:
+            self.assertFalse(self.valid.validate_index(index))
 
     def test_validate_phone(self):
-        valid = Validator()
-        self.assertTrue(valid.validate_phone("+380951234567"))
-        self.assertTrue(valid.validate_phone("+38 (095) 123-45-67"))
-        self.assertFalse(valid.validate_phone("38 (095) 123-45-67"))
-        self.assertFalse(valid.validate_phone("380951234567"))
-        self.assertFalse(valid.validate_phone("-380951234567"))
-        self.assertFalse(valid.validate_phone("+3810951234567"))
-        self.assertTrue(valid.validate_phone("+20951234567"))
-        # Додані крайові випадки
-        # Порожній номер
-        self.assertFalse(valid.validate_phone(""))
-        # Номер без "+"
-        self.assertFalse(valid.validate_phone("380951234567"))
-        # Номер з більше ніж 12 цифрами
-        self.assertFalse(valid.validate_phone("+3809512345678"))
-        # Номер з менше ніж 9 цифрами
-        self.assertFalse(valid.validate_phone("+38095123"))
-        # Номер з неправильним кодом країни (не "38")
-        self.assertFalse(valid.validate_phone("+4810951234567"))
-        # Номер з додатковими цифрами в кінці
-        self.assertFalse(valid.validate_phone("+38 (095) 123-45-678"))
+        valid_phones = ["+380951234567", "+38 (095) 123-45-67", "+20951234567"]
+        invalid_phones = ["38 (095) 123-45-67", "380951234567", "-380951234567", "+3810951234567", "", " ", "38095123", "+3809512345678", "+4810951234567", "+38 (095) 123-45-678"]
+        for phone in valid_phones:
+            self.assertTrue(self.valid.validate_phone(phone))
+        for phone in invalid_phones:
+            self.assertFalse(self.valid.validate_phone(phone))
 
     def test_validate_email(self):
-        valid = Validator()
-        self.assertTrue(valid.validate_email("username@domain.com"))
-        self.assertTrue(valid.validate_email("username+usersurname@domain.com"))
-        self.assertTrue(valid.validate_email("username@ucu.edu.ua"))
-        self.assertFalse(valid.validate_email("usernamedomain.com"))
-        self.assertFalse(valid.validate_email("username@domaincom"))
-        self.assertFalse(valid.validate_email("username@domain.aaa"))
-        self.assertFalse(valid.validate_email("username@aaa"))
-        self.assertFalse(valid.validate_email("@domain.com"))
-        # Додані крайові випадки
-        # Порожній email
-        self.assertFalse(valid.validate_email(""))
-        # Email без "@"
-        self.assertFalse(valid.validate_email("usernamedomain.com"))
-        # Email без домену
-        self.assertFalse(valid.validate_email("username@"))
-        # Email з пробілом
-        self.assertFalse(valid.validate_email("username @domain.com"))
-        # Email з неправильним доменом
-        self.assertFalse(valid.validate_email("username@domain."))
-        # Email з неправильним форматом імені
-        self.assertFalse(valid.validate_email(".username@domain.com"))
+        valid_emails = ["username@domain.com", "username+usersurname@domain.com", "username@ucu.edu.ua"]
+        invalid_emails = ["usernamedomain.com", "username@domaincom", "username@domain.aaa", "username@aaa", "@domain.com", "", " ", "username @domain.com", "username@domain."]
+        for email in valid_emails:
+            self.assertTrue(self.valid.validate_email(email))
+        for email in invalid_emails:
+            self.assertFalse(self.valid.validate_email(email))
 
     def test_validate_id(self):
-        valid = Validator()
-        self.assertTrue(valid.validate_id("123450"))
-        self.assertTrue(valid.validate_id("011111"))
-        self.assertFalse(valid.validate_id("123456"))
-        self.assertFalse(valid.validate_id("123006"))
-        self.assertFalse(valid.validate_id("1230916"))
-        self.assertFalse(valid.validate_id("12306"))
-        # Додані крайові випадки
-        # Порожній ID
-        self.assertFalse(valid.validate_id(""))
-        # ID без нуля
-        self.assertFalse(valid.validate_id("123456"))
-        # ID з двома нулями
-        self.assertTrue(valid.validate_id("120456"))
-        # ID з більше ніж 6 цифрами
-        self.assertFalse(valid.validate_id("1234567"))
-        # ID з менше ніж 6 цифрами
-        self.assertFalse(valid.validate_id("12345"))
-
+        valid_ids = ["123450", "011111", "120456"]
+        invalid_ids = ["123456", "123006", "1230916", "12306", "", " ", "1234567", "12345"]
+        for id in valid_ids:
+            self.assertTrue(self.valid.validate_id(id))
+        for id in invalid_ids:
+            self.assertFalse(self.valid.validate_id(id))
 
     def test_validate(self):
-        valid = Validator()
         data = "Elvis Presley,20,Ukraine,Lviv,Koselnytska st. 2a,79000,+380951234567,username@domain.com,123450"
-        self.assertTrue(valid.validate(data))
-        # Додані крайові випадки
-        # Порожні дані
-        self.assertFalse(valid.validate(""))
-        # Дані без пробілів
-        self.assertFalse(valid.validate("ElvisPresley,20,Ukraine,Lviv,Koselnytskast2a,79000,+380951234567,username@domain.com,123450"))
-        # Дані з неправильним номером телефону
-        self.assertFalse(valid.validate("Elvis Presley,20,Ukraine,Lviv,Koselnytska st. 2a,79000,+38 (095) 123-45-678,username@domain.com,123450"))
+        self.assertTrue(self.valid.validate(data))
+        self.assertFalse(self.valid.validate(""))
+        self.assertFalse(self.valid.validate("ElvisPresley,20,Ukraine,Lviv,Koselnytskast2a,79000,+380951234567,username@domain.com,123450"))
+        self.assertFalse(self.valid.validate("Elvis Presley,20,Ukraine,Lviv,Koselnytska st. 2a,79000,+38 (095) 123-45-678,username@domain.com,123450"))
 
 if __name__ == '__main__':
     unittest.main()
